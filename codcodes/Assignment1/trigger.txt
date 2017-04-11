@@ -1,0 +1,7 @@
+g++ postfix_generator.cpp -o postfix_generator -std=c++11
+
+./postfix_generator
+
+main codes are in postfix_generator.cpp and generate_tree.cpp
+
+python create_dfa.py --input_follow1 follow_pos.txt --input_misc2 val_nullable_firstpos_lastpos.txt --output_file dfa_graph.txt 

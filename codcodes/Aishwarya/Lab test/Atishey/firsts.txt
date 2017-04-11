@@ -1,0 +1,18 @@
+Firsts: 
+A -> f b c a 
+FBCADE -> f b c 
+a -> a 
+B -> b # 
+b -> b 
+# -> # 
+C -> c 
+c -> c 
+D -> d # 
+d -> d 
+# -> # 
+E -> e # 
+e -> e 
+# -> # 
+F -> f # 
+f -> f 
+# -> # 

@@ -1,0 +1,461 @@
+/***
+ *  Name : M. Raihan
+ *  Roll : 110246
+ *  Lab Title : Lexical Analysis
+ * 
+ * 	Function Name :
+ *  =========================================================================================
+ *  lexicalAnalysis() ---> here i did lexical analysis process
+ *  stringAdd( int index, String line) ---> this is a method where i save string in a vector
+ *  
+ *  Variable Name:
+ *  =========================================================================================
+ *  
+ *  vector        ----> a string type vector 
+ *  lexemes       ----> a 1-D array to store lexemes 
+ *  tokensName    ----> a 1-D array to store tokens
+ *  attributeValue----> a 1-D array to store lexemes attribute values
+ *	symbolTable   ----> a 2-D array to store symbol table entry
+ * 
+ * 
+ * 
+ ***/
+
+
+
+
+
+package lexicalanalysis;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Scanner;
+import java.util.Vector;
+
+public class LexicalAnalysis {
+	
+	
+	static Vector<String> vector =new Vector<String>(); 
+	static int position;
+	
+	String line;
+	int index;
+	
+	public void lexicalAnalysis(){
+		
+		
+		try
+		{
+			Scanner scanner =new Scanner(new File("input.txt")); // input from file
+			
+			
+			File outputfile = new File("output.txt"); // output file		
+    		FileWriter filewriter = new FileWriter(outputfile.getAbsoluteFile());
+    		BufferedWriter	bufferwriter = new BufferedWriter(filewriter);
+    	
+	
+			while(scanner.hasNextLine())
+			{
+				position=0;
+				line= scanner.nextLine();
+				line=line.trim();
+	
+				
+			    // multi line comment check
+				if(line.startsWith("/*"))
+				{
+					if(line.endsWith("*/"))
+						continue;
+					
+					while(scanner.hasNextLine())
+					{
+						line = scanner.nextLine();
+						
+						if(line.endsWith("*/"))
+							break;
+					}
+					continue;
+				}
+				// single single line comment check
+				else if(line.equals("") || line.startsWith("//"))
+				{
+					continue;
+				}
+				
+				// here found lexemes 
+				else
+				{
+					for(index=0;index<line.length();index++)
+					{
+						String check=""+line.charAt(index);
+						
+						// remove line comments
+						if(check.equals("/"))
+						{
+							check= check+line.charAt(index+1);
+							if(check.equals("//"))
+							{
+								break;
+							}
+						}
+						
+						else if(check.equals(" "))
+						{
+							if(position == index)
+							{
+								position=index+1;
+								continue;
+							}
+							// add string
+							else
+							{
+								stringAdd(index,line);
+							}	
+						}
+						
+						else if( check.equals("*") ||check.equals("/") ||check.equals("%") || check.equals("(") ||check.equals(")") ||check.equals("{") || check.equals("}") || check.equals("[") || check.equals("]") || check.equals(",") || check.equals(";"))
+						{
+							stringAdd(index,line);
+							
+							String s=""+line.charAt(index);
+							vector.add(s);
+						}
+						
+						else if(check.equals("=") || check.equals("+") || check.equals("-") || check.equals("&") || check.equals("|")|| check.equals("!") || check.equals("<") || check.equals(">") )
+						{
+							String s = ""+ line.charAt(index+1);
+							
+							// Again check for another expression
+							if(s.equals("=") || s.equals("+") || s.equals("-") || s.equals("&") || s.equals("|") )
+							{
+								stringAdd(index,line);
+								s=""+line.charAt(index)+line.charAt(index+1);
+								vector.add(s);
+								position=index+2;
+								index=index+1;
+							}
+							else
+							{
+								stringAdd(index,line);
+								s=""+line.charAt(index);
+								vector.add(s);
+							}	
+						}			
+					}
+					stringAdd(index,line);
+				}	
+			}
+			
+			
+			
+			String[] lexemes   = new String[vector.size()];
+			lexemes = vector.toArray(lexemes);
+			
+			String[] tokensName = new String[lexemes.length];
+			String[] attributeValue = new String[lexemes.length];
+			String[][] symbolTable = new String[lexemes.length][50];
+			int counter=0;
+			boolean checked=false;
+			
+			for(int i=0;i<lexemes.length;i++)
+			{
+				checked=false;
+				
+				// Syntax checking
+				if(	lexemes[i].equals("int") || lexemes[i].equals("float") || 
+					lexemes[i].equals("long")|| lexemes[i].equals("double")|| 
+					lexemes[i].equals("if")|| lexemes[i].equals("else") || 
+					lexemes[i].equals("else if") ||  lexemes[i].equals("for") ||  
+					lexemes[i].equals("while") ||  lexemes[i].equals("do") || 
+					lexemes[i].equals("return")
+				)
+				{
+					tokensName[i] = new String(lexemes[i]);
+					attributeValue[i] = new String();
+				}
+				
+				// checks lexeme is a number or not
+				else if(NumericCheck.isNumericCheck(lexemes[i]))
+				{
+					tokensName[i]=new String("number");
+					attributeValue[i]=new String("Constant");
+				}
+				
+				// Operator checking
+				else if(lexemes[i].equals("==") || lexemes[i].equals("&&") || lexemes[i].equals("||") || lexemes[i].equals("<=") || lexemes[i].equals(">=") || lexemes[i].equals("!=") || lexemes[i].equals("<") || lexemes[i].equals(">") )
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Logical Operator");
+				}
+				
+				else if(lexemes[i].equals("="))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("assignment");
+				}
+				
+				else if(lexemes[i].equals("+"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("addition");
+				}
+				
+				else if(lexemes[i].equals("-"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("subtraction");
+				}
+				
+				else if(lexemes[i].equals("*"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Multiplication");
+				}
+				
+				else if(lexemes[i].equals("/"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Division");
+				}
+				
+				else if(lexemes[i].equals("%"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Modulus");
+				}
+				
+				else if(lexemes[i].equals("^"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Power");
+				}
+				
+				else if(lexemes[i].equals("++"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("increment");
+				}
+				
+				else if(lexemes[i].equals("--"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("decrement");
+				}
+				
+				else if(lexemes[i].equals("<<"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("left shift");
+				}
+				
+				else if(lexemes[i].equals(">>"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("right shift");
+				}
+				
+				else if(lexemes[i].equals("&"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Bit Wise And");
+				}
+				
+				else if(lexemes[i].equals("|"))
+				{
+					tokensName[i]=new String("operator");
+					attributeValue[i]=new String("Bit Wise Or");
+				}
+				
+				// Checks special symbol
+				else if(lexemes[i].equals("("))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("opening braces");
+				}
+				
+				else if(lexemes[i].equals(")"))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("closing braces");
+				}
+				else if(lexemes[i].equals("{"))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("left curly braces");
+				}
+				
+				else if(lexemes[i].equals("}"))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("right curly braces");
+				}
+				
+				else if(lexemes[i].equals("["))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("opening bracket");
+				}
+				
+				else if(lexemes[i].equals("]"))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("closing bracket");
+				}
+				
+				else if(lexemes[i].equals(","))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("comma");
+				}
+				
+				else if(lexemes[i].equals(";"))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("semicolon");
+				}
+				
+				else if(lexemes[i].equals(":"))
+				{
+					tokensName[i]=new String("special symbol");
+					attributeValue[i]=new String("colon");
+				}
+				
+				else if(lexemes[i].equals("main"))
+				{
+					tokensName[i]=new String("id");
+					attributeValue[i]=""+counter;
+					symbolTable[counter][0]="main";
+					symbolTable[counter][1]=new String();
+					counter++;
+				}
+				
+				else
+				{
+					tokensName[i]=new String("id");
+					int j;
+					
+					for( j=0; j< counter; j++)
+					{
+						if(symbolTable[j][0].equals(lexemes[i]))
+						{
+							checked=true;
+							attributeValue[i] =""+j;
+							break;
+						}
+					}
+					if(checked!=true)
+					{
+						symbolTable[j][0]=new String(lexemes[i]);
+						int index=i;
+						counter++;
+						while(index>0)
+						{
+							if(tokensName[index].equals(lexemes[index]))
+							{
+								symbolTable[j][1]=tokensName[index];
+								attributeValue[i] =""+j;
+								break;
+							}
+							index--;				
+						}
+					}			
+				}
+			}
+			
+			
+			// Print output
+			System.out.println("Lexemes\t\t\tToken Name\t\t\tAttribute Value");
+			bufferwriter.write("Token Table");
+			bufferwriter.newLine();
+			bufferwriter.write("______________________________________________________________________________________________________________");
+			bufferwriter.newLine();
+			bufferwriter.write("Lexemes\t\t\tToken Name\t\t\tAttribute Value");
+			bufferwriter.newLine();
+			
+			bufferwriter.write("______________________________________________________________________________________________________________");
+			bufferwriter.newLine();
+			System.out.println("______________________________________________________________________________________________________________");
+			System.out.println();
+			for(int i=0;i<lexemes.length;i++)
+			{
+				if(tokensName[i].equals("id")||tokensName[i].equals("number"))
+				{
+					System.out.println(lexemes[i]+"\t\t\t" +tokensName[i]+"\t\t\t\t"+attributeValue[i]);
+				
+					bufferwriter.write(lexemes[i]+"\t\t\t" +tokensName[i]+"\t\t\t" +attributeValue[i]);
+					bufferwriter.newLine();
+				}
+				else
+				{
+					System.out.println(lexemes[i]+"\t\t\t" +tokensName[i]+"\t\t\t"+attributeValue[i]);
+					
+					bufferwriter.write(lexemes[i]+"\t\t\t" +tokensName[i]+"\t\t\t" +attributeValue[i]);
+					bufferwriter.newLine();
+					
+				}
+			}
+			
+			bufferwriter.newLine();
+			bufferwriter.newLine();
+			bufferwriter.newLine();
+			bufferwriter.newLine();
+			
+			System.out.println();
+			
+
+			
+			
+			bufferwriter.write("Symbol Table");
+			bufferwriter.newLine();
+			bufferwriter.write("______________________________________________________________________________________________________________");
+			bufferwriter.newLine();
+			
+			
+			System.out.println("Symbol\t\t\tToken\t\t\tData Type\t\t\tPointer to Symbol Table Entry");
+			bufferwriter.write("Symbol\t\t\tToken\t\t\tData Type\t\t\tPointer to Symbol Table Entry");
+			bufferwriter.newLine();
+			System.out.println("______________________________________________________________________________________________________________");
+			bufferwriter.write("______________________________________________________________________________________________________________");
+			bufferwriter.newLine();
+			for(int i=0; i<counter;i++)
+			{
+				for(int j=0;j<2;j++)
+				{
+					System.out.print(symbolTable[i][j]+"\t\t\t");
+					
+					bufferwriter.write(symbolTable[i][j]+"\t\t\t");
+					//bufferwriter.newLine();
+				}
+				System.out.println("id\t\t\t\t"+i);
+				bufferwriter.write("id\t\t\t\t"+i);
+				bufferwriter.newLine();
+			}
+			scanner.close();
+			bufferwriter.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// This function store lexeme name in Lexemes vector
+
+		
+	}
+	
+	public void stringAdd( int index, String line)
+	{
+		String str=new String();
+		for(int j=position;j<index;j++)
+		{
+			str=str+line.charAt(j);
+		}
+		if(str.length()>0)
+		{
+			str=str.trim();
+			vector.add(str);	
+		}
+		position=index+1;
+	}
+	
+
+}

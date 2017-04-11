@@ -1,0 +1,19 @@
+python CYK.py --input_file CYK_input.txt --output_file CYK_output.txt --test_strings CYK_test_String.txt 
+
+
+python LL1.py --input_file input_LL1.txt --output_file output_LL1_input_LL1.txt
+python LL1.py --input_file input_first.txt --output_file output_LL1.txt
+
+python follow.py --input_file input_first.txt --output_file output_follow1.txt
+
+
+python first.py --input_file input_first.txt --output_file output_first1.txt
+
+
+
+
+/*DFA from REGEX*/
+
+g++ postfix_generator.cpp -o postfix_generator -std=c++11
+
+python create_dfa.py --input_follow1 follow_pos.txt --input_misc2 val_nullable_firstpos_lastpos.txt --output_file dfa_graph.txt

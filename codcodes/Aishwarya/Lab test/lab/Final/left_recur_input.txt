@@ -1,0 +1,14 @@
+3
+A
+B
+C
+3
+d
+e
+f
+5
+A->Cd
+B->Ce
+C->A
+C->B
+C->f

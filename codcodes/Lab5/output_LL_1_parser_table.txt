@@ -1,0 +1,17 @@
+$E'''				i+i*i$				TE'
+$E'T				i+i*i$				FT'
+$E'T'F				i+i*i$				i
+$E'T'i				i+i*i$				match
+$E'T'				+i*i$				@
+$E'				+i*i$				+TE'
+$E'T+				+i*i$				match
+$E'T				i*i$				FT'
+$E'T'F				i*i$				i
+$E'T'i				i*i$				match
+$E'T'				*i$				*FT'
+$E'T'F*				*i$				match
+$E'T'F				i$				i
+$E'T'i				i$				match
+$E'T'				$				@
+$E'				$				@
+$				$				Accepted

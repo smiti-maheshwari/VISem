@@ -1,0 +1,7 @@
+S = aABC
+A = a
+A = bb
+B = a
+B = !
+C = b
+C = !

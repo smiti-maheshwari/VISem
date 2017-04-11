@@ -1,0 +1,100 @@
+%Blur Kernel
+ksize = 31;
+kernel = zeros(ksize);
+
+%Gaussian Blur
+s = 3;
+m = ksize/2;
+[X, Y] = meshgrid(1:ksize);
+kernel = (1/(2*pi*s^2))*exp(-((X-m).^2 + (Y-m).^2)/(2*s^2));
+
+%Display Kernel
+figure, imagesc(kernel)
+axis square
+title('Blur Kernel')
+colormap gray
+
+%Embed kernel in image that is size of original image
+[h, w] = size(origimage);
+kernelimage = zeros(h,w);
+kernelimage(1:ksize, 1:ksize) = kernel;
+
+%Perform 2D FFTs
+fftimage = fft2(double(origimage));
+fftkernel = fft2(kernelimage);
+
+%Set all zero values to minimum value
+fftkernel(find(fftkernel == 0)) = 1e-6;
+
+%Multiply FFTs
+fftblurimage = fftimage.*fftkernel;
+
+%Perform Inverse 2D FFT
+blurimage = ifft2(fftblurimage);
+
+%Display Blurred Image
+figure, imagesc(blurimage)
+axis square
+title('Blurred Image')
+colormap gray
+set(gca, 'XTick', [], 'YTick', [])
+
+%Pad image
+origimagepad = padimage(origimage, ksize);
+
+%Embed kernel in image that is size of original image + padding
+[h1, w1] = size(origimagepad);
+kernelimagepad = zeros(h1,w1);
+
+kernelimagepad(1:ksize, 1:ksize) = kernel;
+
+%Perform 2D FFTs
+fftimagepad = fft2(origimagepad);
+fftkernelpad = fft2(kernelimagepad);
+
+fftkernelpad(find(fftkernelpad == 0)) = 1e-6;
+
+%Multiply FFTs
+fftblurimagepad = fftimagepad.*fftkernelpad;
+
+%Perform Reverse 2D FFT
+blurimagepad = ifft2(fftblurimagepad);
+
+%Remove Padding
+blurimageunpad = blurimagepad(ksize+1:ksize+h,ksize+1:ksize+w);
+
+%Display Blurred Image
+figure, imagesc(blurimageunpad)
+axis square
+title('Blurred Image - with Padding')
+colormap gray
+set(gca, 'XTick', [], 'YTick', [])
+
+function Ipad = padimage(I, p)
+%This function pads the edges of an image to minimize edge effects 
+%during convolutions and Fourier transforms. %Inputs %I - image to pad %p - size of padding around image %Output %Ipad - padded image 
+
+%Find size of image
+[h, w] = size(I); 
+
+%Pad edges
+Ipad = zeros(h+2*p, w+2*p);  
+
+%Middle
+Ipad(p+1:p+h, p+1:p+w) = I;
+
+%Top and Bottom
+Ipad(1:p, p+1:p+w) = repmat(I(1,1:end), p, 1);
+Ipad(p+h+1:end, p+1:p+w) = repmat(I(end,1:end), p, 1); 
+
+%Left and Right
+Ipad(p+1:p+h, 1:p) = repmat(I(1:end,1), 1, p);
+Ipad(p+1:p+h, p+w+1:end) = repmat(I(1:end,end), 1, p); 
+
+%Corners
+Ipad(1:p, 1:p) = I(1,1); %Top-left
+Ipad(1:p, p+w+1:end) = I(1,end); %Top-right
+Ipad(p+h+1:end, 1:p) = I(end,1); %Bottom-left
+Ipad(p+h+1:end,p+w+1:end) = I(end,end); %Bottom-right
+
+

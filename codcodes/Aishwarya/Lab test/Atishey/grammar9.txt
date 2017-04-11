@@ -1,0 +1,6 @@
+A	FBCADE,a
+F	f,#
+B	b,#
+C	c
+D	d,#
+E	e,#

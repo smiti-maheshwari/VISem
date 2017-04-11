@@ -1,0 +1,16 @@
+E$				i+i*i$				TX
+TX$				i+i*i$				iY
+iYX$				i+i*i$				match
+YX$				+i*i$				@
+X$				+i*i$				+E
++E$				+i*i$				match
+E$				i*i$				TX
+TX$				i*i$				iY
+iYX$				i*i$				match
+YX$				*i$				*T
+*TX$				*i$				match
+TX$				i$				iY
+iYX$				i$				match
+YX$				$				@
+X$				$				@
+$				$				Accepted

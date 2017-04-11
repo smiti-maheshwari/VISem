@@ -1,0 +1,16 @@
+python LR_0_parser_table.py --input_file input_SLR_1.txt --output_file output_SLR_1_parser_table.txt
+
+
+python SLR_1_parser_table.py --input_file input_SLR_1.txt --output_file output_SLR_1_parser_table.py
+
+
+python LR_0_states.py --input_file input_SLR_1.txt --output_file output_SLR_1_parser_table.py
+
+
+python first.py --input_file input_SLR_1.txt --output_file output_SLR_1_parser_table.py
+
+python follow.py --input_file input_LR_0.txt --output_file output_LR_0_follow.txt
+
+
+
+python LR_SLR_parser.py --input_file input_SLR_1.txt --input_string input_SLR_string.txt --output_file log_LR_SLR_parser.txt

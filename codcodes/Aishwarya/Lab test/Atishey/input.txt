@@ -1,0 +1,3 @@
+A	B
+B	BcC,C
+C	BbC,a

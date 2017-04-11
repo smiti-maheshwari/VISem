@@ -1,0 +1,14 @@
+0				i*i+i$				Shift
+0i5				*i+i$				Reduce F -> i
+0F3				*i+i$				Reduce T -> F
+0T2				*i+i$				Shift
+0T2*7				i+i$				Shift
+0T2*7i5				+i$				Reduce F -> i
+0T2*7F10				+i$				Reduce T -> T*F
+0T2				+i$				Reduce E -> T
+0E1				+i$				Shift
+0E1+6				i$				Shift
+0E1+6i5				$				Reduce F -> i
+0E1+6F3				$				Reduce T -> F
+0E1+6T9				$				Reduce E -> E+T
+0E1				$				Accepted

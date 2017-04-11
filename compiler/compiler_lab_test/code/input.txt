@@ -1,0 +1,22 @@
+E->E+T               
+E->T
+T->T*F
+T->F
+F->(E)
+F->i
+
+E E+T
+E T
+T T*F
+T F
+F (E)
+F i
+
+S S+T
+S T
+T T*F
+T F
+F (S)
+F i
+
+(+i(ii)

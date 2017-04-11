@@ -1,0 +1,4 @@
+A = Cd
+B = Ce
+C = fC'
+C' = dC'|eC'|!

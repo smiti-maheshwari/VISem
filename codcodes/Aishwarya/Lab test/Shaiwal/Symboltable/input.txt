@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main(double k)
+{
+	
+	double h = 0.0;
+	// This is single comment
+	/*****
+	   This is multi comment
+	***/
+
+	
+
+	double j;
+
+	if(j<=9/*dafasfadasdsds*/){
+			float l=o;
+	}
+	
+    int boy;
+    int girl;
+    boy = girl;
+	float a,b,sum;
+	sum=a+b;
+	return 0;
+}
+
+void func(int a){
+	int y = 0;
+}

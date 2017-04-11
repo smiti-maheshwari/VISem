@@ -1,0 +1,93 @@
+Token Table
+______________________________________________________________________________________________________________
+Lexemes			Token Name			Attribute Value
+______________________________________________________________________________________________________________
+int			int			keyword
+main			id			0
+(			Punctuation			opening braces
+double			double			keyword
+k			id			1
+)			Punctuation			closing braces
+{			Punctuation			left curly braces
+double			double			keyword
+h			id			2
+=			Assingment Operator			Simple assignment
+0.0			number			Constant
+;			Punctuation			semicolon
+double			double			keyword
+j			id			3
+;			Punctuation			semicolon
+if			if			keyword
+(			Punctuation			opening braces
+j			id			3
+<=			Relational Operator			Less than equal to
+9			number			Constant
+)			Punctuation			closing braces
+{			Punctuation			left curly braces
+float			float			keyword
+l			id			4
+=			Assingment Operator			Simple assignment
+o			id			5
+;			Punctuation			semicolon
+}			Punctuation			right curly braces
+int			int			keyword
+boy			id			6
+;			Punctuation			semicolon
+int			int			keyword
+girl			id			7
+;			Punctuation			semicolon
+boy			id			6
+=			Assingment Operator			Simple assignment
+girl			id			7
+;			Punctuation			semicolon
+float			float			keyword
+a			id			8
+,			Punctuation			comma
+b			id			9
+,			Punctuation			comma
+sum			id			10
+;			Punctuation			semicolon
+sum			id			10
+=			Assingment Operator			Simple assignment
+a			id			8
++			Arithmetic operator			addition
+b			id			9
+;			Punctuation			semicolon
+return			return			keyword
+0			number			Constant
+;			Punctuation			semicolon
+}			Punctuation			right curly braces
+void			void			keyword
+func			id			11
+(			Punctuation			opening braces
+int			int			keyword
+a			id			8
+)			Punctuation			closing braces
+{			Punctuation			left curly braces
+int			int			keyword
+y			id			12
+=			Assingment Operator			Simple assignment
+0			number			Constant
+;			Punctuation			semicolon
+}			Punctuation			right curly braces
+
+
+
+
+Symbol Table
+______________________________________________________________________________________________________________
+Symbol			Token			Data Type			Pointer to Symbol Table Entry
+______________________________________________________________________________________________________________
+main						id				0
+k			double			id				1
+h			double			id				2
+j			double			id				3
+l			float			id				4
+o			float			id				5
+boy			int			id				6
+girl			int			id				7
+a			float			id				8
+b			float			id				9
+sum			float			id				10
+func			void			id				11
+y			int			id				12

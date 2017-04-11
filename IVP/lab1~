@@ -1,0 +1,24 @@
+2)
+cd(newFolder)
+oldFolder = cd(newFolder)
+cd
+
+3)
+help functionname
+
+4)
+
+5)
+imread(filename)
+imwrite()
+imshow()
+
+6)
+
+7)
+zeros(row, column)
+array(row1:row2, col1:col2)
+
+8)
+disp()
+

@@ -1,0 +1,11 @@
+im = imread('Image_3.bmp');
+subplot(121);
+imshow(im);
+title('original image');
+se = strel('square',15);
+%bw = imfill(im,'holes');
+bw  = imdilate(im,se);
+bw = imerode(bw,se);
+subplot(122);
+imshow(bw);
+title('filled image');

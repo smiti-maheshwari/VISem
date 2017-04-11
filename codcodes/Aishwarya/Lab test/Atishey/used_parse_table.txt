@@ -1,0 +1,6 @@
+A : (f,A->FBCADE )(b,A->FBCADE )(c,A->FBCADE )(a,A->a )
+B : (b,B->b )(c,B-># )
+C : (c,C->c )
+D : (d,D->d )(e,D-># )($,D-># )(d,D-># )
+E : (e,E->e )($,E-># )(d,E-># )
+F : (f,F->f )(b,F-># )($,F-># )(d,F-># )

@@ -1,0 +1,7 @@
+python LL1.py --input_file input_LL1.txt --output_file output_LL1_input_LL1.txt
+
+python LL1_parser.py --input_file input_LL1.txt --input_string input_string.txt --output_file output_LL_1_parser_table.txt 
+
+python LL1_error_recovery.py --input_file input_LL1_ex_2.txt --output_file output_LL_1_parser_table.txt 
+
+python LL1_parser_error_recovery.py --input_file input_LL1.txt --input_string input_string.txt --output_file output_LL_1_parser_table_error_recovery.txt 
